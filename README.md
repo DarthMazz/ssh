@@ -1,6 +1,6 @@
 # ssh
 
-## Azure に VM を作成して SSH で接続する
+## Azure に VM を作成して SSH で接続する(Linux)
 
 ### Azure に VM を作成する
 リソースの作成 > Compute > 仮想マシン
@@ -41,4 +41,59 @@
 ~~~
 > scp -i  <秘密キーファイル名> <ローカルファイル名> azureuser@<サーバ名>:~/
 ~~~
+
+## Azure に VM を作成して SSH で接続する(windows)
+
+### Azure に VM を作成する
+リソースの作成 > Compute > 仮想マシン
+
+### SSH を有効にする
+1. 実行コマンド > RunPowerShellScript
+2. スクリプトを実行する
+
+https://www.server-world.info/query?os=Windows_Server_2019&p=ssh&f=1
+
+~~~
+> Get-WindowsCapability -Online | ? Name -like 'OpenSSH*'
+> Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
+> Start-Service -Name "sshd"
+> Set-Service -Name "sshd" -StartupType Automatic
+> Get-Service -Name "sshd" | Select-Object *
+> New-NetFirewallRule -Name "SSH" `
+-DisplayName "SSH" `
+-Description "Allow SSH" `
+-Profile Any `
+-Direction Inbound `
+-Action Allow `
+-Protocol TCP `
+-Program Any `
+-LocalAddress Any `
+-RemoteAddress Any `
+-LocalPort 22 `
+-RemotePort Any
+~~~
+
+3. ssh 接続する
+~~~
+ssh azureuser@<サーバ名>
+~~~
+
+4. PowerShell を実行する
+~~~
+powershell
+~~~
+
+5. dotnet をインストールするスクリプトをコピーする
+
+https://docs.microsoft.com/ja-jp/dotnet/core/tools/dotnet-install-script
+
+~~~
+scp ./dotnet-install.ps1 azureuser@<サーバ名>:c:\users\azureuser\dotnet-install.ps1
+~~~
+
+6. dotnet をインストールする
+~~~
+./dotnet-install.ps1 -Channel 3.1 -InstallDir C:\cli
+~~~
+
 
