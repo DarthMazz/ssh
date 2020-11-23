@@ -83,7 +83,11 @@ ssh azureuser@<サーバ名>
 powershell
 ~~~
 
-5. dotnet をインストールするスクリプトをコピーする
+5. dotnet をインストールするスクリプトをダウンロードする
+
+https://dot.net/v1/dotnet-install.ps1
+
+6. dotnet をインストールするスクリプトをアップロードする
 
 https://docs.microsoft.com/ja-jp/dotnet/core/tools/dotnet-install-script
 
@@ -91,7 +95,7 @@ https://docs.microsoft.com/ja-jp/dotnet/core/tools/dotnet-install-script
 scp ./dotnet-install.ps1 azureuser@<サーバ名>:c:\users\azureuser\dotnet-install.ps1
 ~~~
 
-6. dotnet をインストールする
+7. dotnet をインストールする
 ~~~
 ./dotnet-install.ps1 -Channel 3.1 -InstallDir C:\cli
 ~~~
